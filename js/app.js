@@ -1,6 +1,11 @@
 function loadWeather() {
     fetch('./data/weather.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Could not load weather.json (${response.status})`);
+            }
+            return response.json();
+        })
         .then(data => displayWeather(data))
         .catch(error => {
             console.error('Error loading weather:', error);
